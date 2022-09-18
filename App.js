@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -17,11 +17,14 @@ export default function App() {
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
   const [toDos, setToDos] = useState({});
+  useEffect(() => {
+    loadToDos();
+  }, []);
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
   const onChangeText = (payload) => setText(payload);
   const saveToDos = async (toSave) => {
-    await AsyncStorage.setItem(STORAGE_KEY, jsonValue);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
   };
   const addTodo = async () => {
     if (text === "") {
@@ -33,6 +36,11 @@ export default function App() {
     await saveToDos(newToDos);
     setToDos(newToDos);
   };
+  const loadToDos = async () => {
+    const s = await AsyncStorage.getItem(STORAGE_KEY);
+    console.log(s);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
