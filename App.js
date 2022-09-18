@@ -9,6 +9,9 @@ import {
   ScrollView,
 } from "react-native";
 import { theme } from "./colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const STORAGE_KEY = "@toDos";
 
 export default function App() {
   const [working, setWorking] = useState(true);
@@ -17,13 +20,17 @@ export default function App() {
   const travel = () => setWorking(false);
   const work = () => setWorking(true);
   const onChangeText = (payload) => setText(payload);
-  const addTodo = () => {
+  const saveToDos = async (toSave) => {
+    await AsyncStorage.setItem(STORAGE_KEY, jsonValue);
+  };
+  const addTodo = async () => {
     if (text === "") {
       return;
     }
     // save to do
     const newToDos = { ...toDos, [Date.now()]: { text, work: working } };
     setText("");
+    await saveToDos(newToDos);
     setToDos(newToDos);
   };
   return (
