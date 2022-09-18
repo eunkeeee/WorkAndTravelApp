@@ -38,7 +38,7 @@ export default function App() {
   };
   const loadToDos = async () => {
     const s = await AsyncStorage.getItem(STORAGE_KEY);
-    console.log(s);
+    setToDos(JSON.parse(s));
   };
 
   return (
