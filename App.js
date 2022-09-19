@@ -94,6 +94,7 @@ export default function App() {
         value={text}
       />
       <ScrollView>
+        {/* object의 keys만 포함한 array를 만듦 */}
         {Object.keys(toDos).map((key) =>
           toDos[key].work === working ? (
             <View style={styles.toDo} key={key}>
